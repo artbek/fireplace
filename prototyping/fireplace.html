@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+
+<body style="background-color: #111111; text-align: center">
+
+<canvas
+	id="myCanvas"
+	width="200"
+	height="100"
+	style="border:1px solid #d3d3d3;"
+>...</canvas>
+
+<script>
+
+var display = [
+	[0, 0, 0, 0, 0, 0, 0],
+	[0, 0, 0, 0, 0, 0, 0],
+	[0, 0, 0, 0, 0, 0, 0],
+	[0, 0, 0, 0, 0, 0, 0],
+	[0, 0, 0, 0, 0, 0, 0],
+	[4, 4, 4, 4, 4, 4, 4],
+];
+
+var c = document.getElementById("myCanvas");
+var ctx = c.getContext("2d");
+var offset = 10;
+var pwo = 13;
+var pwi = 3;
+
+
+function display_flush()
+{
+	for (r = 0; r < 5; r++) {
+		for (c = 0; c < 7; c++) {
+			brightness = display[r][c];
+
+			switch (brightness) {
+				case 0:
+					ctx.fillStyle="#111111";
+					break;
+				case 1:
+					ctx.fillStyle="#331111";
+					break;
+				case 2:
+					ctx.fillStyle="#661111";
+					break;
+				case 3:
+					ctx.fillStyle="#991111";
+					break;
+				case 4:
+					ctx.fillStyle="#cc1111";
+					break;
+			}
+
+			//ctx.fillRect((c * pwo) + offset, (r * pwo) + offset, pwi, pwi);
+			ctx.beginPath();
+			ctx.arc((c * pwo) + offset, (r * pwo) + offset, pwi, 0, 2*Math.PI, false);
+			ctx.fill();
+		}
+	}
+}
+
+function fire()
+{
+	for (r = 0; r < 5; r++) {
+		for (c = 0; c < 7; c++) {
+			var d = Math.floor(Math.random() * 3);
+			display[r][c] = Math.max(display[r + 1][c] - d, 0);
+		}
+	}
+}
+
+setInterval(function() {
+	fire();
+	display_flush();
+}, 100);
+
+</script>
+
+</body>
+
+</html>
+

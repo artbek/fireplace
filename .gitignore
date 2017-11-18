@@ -1,0 +1,15 @@
+# GCC
+*.o
+*.elf
+*.hex
+*.bin
+
+# KiCad
+*.bak
+*.bck
+*.net
+*.*-bak
+
+# Blender
+*.blend1
+
