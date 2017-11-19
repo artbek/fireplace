@@ -84,11 +84,3 @@
 	pop {r0-r5}
 
 .endm
-
-
-.macro macros__set_brightness_level BLEVEL
-	ldr r0, =BRIGHTNESS_LEVEL_0
-	adds r0, \BLEVEL
-	ldr r1, [r0]
-	mov r12, r0
-.endm

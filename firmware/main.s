@@ -28,36 +28,14 @@ _start:
 	bl _helpers__delay
 
 	@ Enable GPIO clocks...
-	ldr   r0, =RCC_IOPENR
-	movs  r1, #0 @ IOPAEN (PORT A)
-	movs  r2, #1 @ set
-	push {r0, r1, r2}
-	bl    _helpers__sr_bit
-
-	ldr   r0, =RCC_IOPENR
-	movs  r1, #1 @ IOPBEN (PORT B)
-	movs  r2, #1 @ set
-	push {r0, r1, r2}
-	bl    _helpers__sr_bit
-
+	macros__register_bit_sr RCC_IOPENR 0 1 @ Port A.
+	macros__register_bit_sr RCC_IOPENR 1 1 @ Port B.
 	macros__register_value GPIOA_OSPEEDR 0xffffffff
 
 
 	@ SYSCLK + SysTick...
 	bl _helpers__sysclk
 	bl _helpers__enable_systick
-
-
-	@ TIM21 timer...
-	@macros__register_bit_sr RCC_APB2ENR 2 1 @ Enable clock for TIM21.
-	@macros__register_bit_sr TIM21_CR1 6 0 @ Center-aligned mode.
-	@macros__register_bit_sr TIM21_CR1 5 0 @ Center-aligned mode.
-	@macros__register_bit_sr TIM21_DIER 0 1 @ UIE (Update Interrupt Enable)
-	@macros__register_bit_sr NVIC_ISER 20 1 @ Interrupt Enable.
-	@macros__register_value TIM21_ARR GAME__STAGE0_ARR @ ARR.
-	@macros__register_value TIM21_PSC GAME__STAGE0_PSC @ Prescaler.
-	@macros__register_value TIM21_CNT 0x0 @ Counter value.
-	@macros__register_bit_sr TIM21_CR1 0 1 @ CEN (Clock Enable).
 
 
 	@ Init DISPLAY outputs...
@@ -80,37 +58,29 @@ _start:
 
 	@ Init ON/OFF button...
 
-	ldr r0, =RCC_APB1ENR
-	movs r1, #28 @ Enable clock for PWR.
-	movs  r2, #1 @ set
-	push {r0, r1, r2}; bl _helpers__sr_bit
-
-	ldr r0, =SCR
-	movs r1, #2 @ Enable SLEEPDEEP.
-	movs  r2, #1 @ set
-	push {r0, r1, r2}; bl _helpers__sr_bit
-
-	ldr r0, =PWR_CR
-	movs r1, #1 @ Standby when DeepSleep (PDDS bit).
-	movs  r2, #1 @ set
-	push {r0, r1, r2}; bl _helpers__sr_bit
-
-	ldr r0, =PWR_CSR
-	movs r1, #8 @ WKUP pin 1 (PA0).
-	movs  r2, #1 @ set
-	push {r0, r1, r2}; bl _helpers__sr_bit
+	macros__register_bit_sr RCC_APB1ENR 28 1 @ Enable clock for PWR.
+	macros__register_bit_sr SCR 2 1 @ Enable SLEEPDEEP.
+	macros__register_bit_sr PWR_CR 1 1 @ Standby when DeepSleep (PDDS bit).
+	macros__register_bit_sr PWR_CSR 8 1 @ WKUP pin 1 (PA0).
 
 
-
-	@ Init game ...
-	ldr r0, =11
-	mov r12, r0
+	macros__register_value IS_BTN_ONOFF_ARMED 0
+	macros__register_value RAND_OFFSET 0
 
 	bl _display__init_blank
 
-	ldr r0, =IS_BTN_ONOFF_ARMED
-	movs r1, 0
-	str r1, [r0]
+
+	@ TIM21 timer...
+	macros__register_bit_sr RCC_APB2ENR 2 1 @ Enable clock for TIM21.
+	macros__register_bit_sr TIM21_CR1 6 0 @ Center-aligned mode.
+	macros__register_bit_sr TIM21_CR1 5 0 @ Center-aligned mode.
+	macros__register_bit_sr TIM21_DIER 0 1 @ UIE (Update Interrupt Enable)
+	macros__register_bit_sr NVIC_ISER 20 1 @ Interrupt Enable.
+	macros__register_value TIM21_ARR 20 @ ARR.
+	macros__register_value TIM21_PSC 20000 @ Prescaler.
+	macros__register_value TIM21_CNT 0x0 @ Counter value.
+	macros__register_bit_sr TIM21_CR1 0 1 @ CEN (Clock Enable).
+
 
 
 b _loop
@@ -122,9 +92,7 @@ _loop:
 
 
 	@ Progress flame...
-	@ ldr r2, =COL_DECIMAL
-	@ mov r8, r2
-	@ bl _helpers__toggle_pin
+
 
 
 	@ ON/OFF Button

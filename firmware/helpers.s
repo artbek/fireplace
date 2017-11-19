@@ -168,7 +168,7 @@ _helpers__sysclk:
 	@ 1101: SYSCLK divided by 128
 	@ 1110: SYSCLK divided by 256
 	@ 1111: SYSCLK divided by 512
-	macros__register_bit_sr RCC_CFGR 7 0
+	macros__register_bit_sr RCC_CFGR 7 1
 	macros__register_bit_sr RCC_CFGR 6 0
 	macros__register_bit_sr RCC_CFGR 5 0
 	macros__register_bit_sr RCC_CFGR 4 0

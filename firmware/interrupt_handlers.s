@@ -1,6 +1,7 @@
 _nmi_handler:
-	movs r6, #120
-	bx lr
+	push {lr}
+	bkpt
+	pop {pc}
 
 
 _hard_fault_handler:
@@ -10,13 +11,15 @@ _hard_fault_handler:
 
 
 _svcall_handler:
-	movs r6, #122
-	bx lr
+	push {lr}
+	bkpt
+	pop {pc}
 
 
 _pendsv_handler:
-	movs r6, #123
-	bx lr
+	push {lr}
+	bkpt
+	pop {pc}
 
 
 _systick_handler:
@@ -37,7 +40,30 @@ _systick_handler:
 _interrupt_handlers__TIM21:
 	push {lr}
 
+	ldr r0, =DISPLAY_BUFFER_WITH_BRIGHTNESS_LAST_ADDR
+	subs r0, #24
+
+	subs r0, #28
+	mov r9, r0
+	bl _display__flame
+
+	subs r0, #28
+	mov r9, r0
+	bl _display__flame
+
+	subs r0, #28
+	mov r9, r0
+	bl _display__flame
+
+	subs r0, #28
+	mov r9, r0
+	bl _display__flame
+
+
+	@ ldr r0, =COL_DECIMAL; mov r8, r0; bl _helpers__toggle_pin
+
 	macros__register_bit_sr TIM21_SR 0 0 @ Clear UIF (Update Interrup Flag).
+
 
 	pop {pc}
 

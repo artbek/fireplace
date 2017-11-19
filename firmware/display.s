@@ -3,53 +3,51 @@ _display__init_blank:
 
 	ldr r0, =DISPLAY_BUFFER_WITH_BRIGHTNESS_FIRST_ADDR
 
-	ldr r2, =2000; str r2, [r0, 0]
+	ldr r2, =500; str r2, [r0, 0]
 	ldr r2, =2000; str r2, [r0, 4]
 	ldr r2, =2000; str r2, [r0, 8]
 	ldr r2, =2000; str r2, [r0, 12]
 	ldr r2, =2000; str r2, [r0, 16]
 	ldr r2, =2000; str r2, [r0, 20]
-	ldr r2, =2000; str r2, [r0, 24]
+	ldr r2, =500; str r2, [r0, 24]
 
 	adds r0, #28
-	ldr r2, =1000; str r2, [r0, 0]
-	ldr r2, =1000; str r2, [r0, 4]
-	ldr r2, =1000; str r2, [r0, 8]
-	ldr r2, =1000; str r2, [r0, 12]
-	ldr r2, =1000; str r2, [r0, 16]
-	ldr r2, =1000; str r2, [r0, 20]
-	ldr r2, =1000; str r2, [r0, 24]
+	ldr r2, =0; str r2, [r0, 0]
+	ldr r2, =0; str r2, [r0, 4]
+	ldr r2, =0; str r2, [r0, 8]
+	ldr r2, =0; str r2, [r0, 12]
+	ldr r2, =0; str r2, [r0, 16]
+	ldr r2, =0; str r2, [r0, 20]
+	ldr r2, =0; str r2, [r0, 24]
 
 	adds r0, #28
-	ldr r2, =0500; str r2, [r0, 0]
-	ldr r2, =0500; str r2, [r0, 4]
-	ldr r2, =0500; str r2, [r0, 8]
-	ldr r2, =0500; str r2, [r0, 12]
-	ldr r2, =0500; str r2, [r0, 16]
-	ldr r2, =0500; str r2, [r0, 20]
-	ldr r2, =0500; str r2, [r0, 24]
+	ldr r2, =0; str r2, [r0, 0]
+	ldr r2, =0; str r2, [r0, 4]
+	ldr r2, =0; str r2, [r0, 8]
+	ldr r2, =0; str r2, [r0, 12]
+	ldr r2, =0; str r2, [r0, 16]
+	ldr r2, =0; str r2, [r0, 20]
+	ldr r2, =0; str r2, [r0, 24]
 
 	adds r0, #28
-	ldr r2, =0250; str r2, [r0, 0]
-	ldr r2, =0250; str r2, [r0, 4]
-	ldr r2, =0250; str r2, [r0, 8]
-	ldr r2, =0250; str r2, [r0, 12]
-	ldr r2, =0250; str r2, [r0, 16]
-	ldr r2, =0250; str r2, [r0, 20]
-	ldr r2, =0250; str r2, [r0, 24]
+	ldr r2, =0; str r2, [r0, 0]
+	ldr r2, =0; str r2, [r0, 4]
+	ldr r2, =0; str r2, [r0, 8]
+	ldr r2, =0; str r2, [r0, 12]
+	ldr r2, =0; str r2, [r0, 16]
+	ldr r2, =0; str r2, [r0, 20]
+	ldr r2, =0; str r2, [r0, 24]
 
 	adds r0, #28
-	ldr r2, =0050; str r2, [r0, 0]
-	ldr r2, =0050; str r2, [r0, 4]
-	ldr r2, =0050; str r2, [r0, 8]
-	ldr r2, =0050; str r2, [r0, 12]
-	ldr r2, =0050; str r2, [r0, 16]
-	ldr r2, =0050; str r2, [r0, 20]
-	ldr r2, =0050; str r2, [r0, 24]
-
+	ldr r2, =0; str r2, [r0, 0]
+	ldr r2, =0; str r2, [r0, 4]
+	ldr r2, =0; str r2, [r0, 8]
+	ldr r2, =0; str r2, [r0, 12]
+	ldr r2, =0; str r2, [r0, 16]
+	ldr r2, =0; str r2, [r0, 20]
+	ldr r2, =0; str r2, [r0, 24]
 
 	pop {r0-r7, pc}
-
 
 
 _display__flush:
@@ -69,33 +67,33 @@ _display__flush:
 
 		_row:
 
+			@ Figure out R5: row index.
 			ldr r4, =ROW_1
 			subs r5, r2, r4
 			lsrs r5, #5 @ R5 / 32
-			@ R5: row index.
 
+			@ Figure R6: col index.
 			ldr r4, =COL_1
 			subs r6, r3, r4
-			lsrs r6, #5 @ R5 / 32
-			@ R6: col index.
+			lsrs r6, #5 @ R6 / 32
 
 			movs r7, #7
 			muls r7, r6
 			adds r7, r5 @ R7: display buffer index of the dot.
 			lsls r7, 2 @ R7: display buffer mem offset of the dot.
-		
+
 			ldr r4, =DISPLAY_BUFFER_WITH_BRIGHTNESS_FIRST_ADDR
 			ldr r4, [r4, r7]
 			@ R4: brightness value.
 
-			ldr r5, =DISPLAY__FADE_DARKNESS_MAX
+			ldr r5, =2000
 			subs r5, r4
 			@ R5: darkness value.
 
 
 			mov r8, r2
 			bl _helpers__set_pin_low
-			
+
 			@ Wait in brigtness ...
 			mov r8, r4
 			bl _helpers__delay
@@ -122,83 +120,47 @@ _display__flush:
 		cmp r3, r4
 
 	ble _col
-		
+
 	pop {r0-r7, pc}
 
 
-
-_display__flush_old:
+_display__flame:
 	push {r0-r7, lr}
 
-	ldr r2, =COL_1
-	movs r3, 1 @ Column index.
+	mov r2, r9
+	adds r2, #24
 
-	ldr r4, =DISPLAY_BUFFER_CURSOR
-	ldr r4, [r4]
-	adds r3, r4 @ Cursor-X.
+	_next_col_dot:
+		ldr r1, [r2]
 
-	_col2:
-		ldr r0, =DISPLAY_BUFFER_FIRST_ADDR
-		ldr r1, =ROW_1
+		// get random delta
+		ldr r5, =RAND_OFFSET
+		ldr r7, [r5]
+		ldr r6, =EEPROM
+		ldr r4, [r6, r7]
+		adds r7, #4
+		ldr r6, =396
+		cmp r7, r6
+		ble _save_new_rand_offset
+			movs r7, #0
+		_save_new_rand_offset:
+		str r7, [r5]
 
-		push {r0-r3} @ Save current row addr and current row data addr.
+		movs r3, #200
+		muls r4, r3
 
-		ldr r0, =BRIGHTNESS_LEVELS
-		movs r1, r3
-		lsls r1, 2
-		adds r0, r1
-		ldr r1, [r0]
-		mov r12, r1
+		// subtract
+		subs r1, r4
 
-		push {r2}; bl _helpers__set_pin_high @ Column ON.
-		pop {r0-r3} @ Load current row addr and current row data addr.
+		// if negative, make it zero
+		bpl _not_negative
+			movs r1, #0
+		_not_negative:
 
-		_row2:
-			push {r0-r3} @ Save current row addr and current row data addr.
 
-			ldr r4, [r0] @ R0: current row address.
-			lsls r4, r3 @ Get the first bit.
-			bcs _row_on @ If set (1) row on.
-				push {r1}; bl _helpers__set_pin_high
-				b _after_row_on
-			_row_on:
-				push {r1}; bl _helpers__set_pin_low
-
-		_after_row_on:
-			pop {r0-r3} @ Load current row addr and current row data addr.
-
-			push {r0-r3} @ Save current row addr and current row data addr.
-			mov r2, r12 @ R12 how long keep it off
-			ldr r1, =DISPLAY__FADE_DARKNESS_MAX
-			subs r1, r2
-			push {r1}; bl _helpers__delay
-			pop {r0-r3} @ Load current row addr and current row data addr.
-
-			push {r0-r3} @ Save current row addr and current row data addr.
-			push {r1}; bl _helpers__set_pin_high
-			pop {r0-r3} @ Load current row addr and current row data addr.
-
-			push {r0-r3} @ Save current row addr and current row data addr.
-			mov r1, r12
-			push {r1}; bl _helpers__delay
-			pop {r0-r3} @ Load current row addr and current row data addr.
-
-			adds r0, 4
-			adds r1, 24 @ 6 words.
-
-			ldr r4, =DISPLAY_BUFFER_LAST_ADDR
-			cmp r0, r4
-		ble _row2
-
-		push {r0-r3} @ Save current row addr and current row data addr.
-		push {r2}; bl _helpers__set_pin_low @ Column OFF.
-		pop {r0-r3} @ Load current row addr and current row data addr.
-
-		adds r2, 24 @ Next colum data address. 6 words.
-		adds r3, 1 @ Next column index.
-		ldr r4, =COL_5
-		cmp r2, r4
-	ble _col2
+		str r1, [r2, #28]
+		subs r2, #4
+		cmp r2, r9
+	bge _next_col_dot
 
 	pop {r0-r7, pc}
-
