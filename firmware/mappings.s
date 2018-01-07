@@ -2,7 +2,7 @@
 
 COL_1: @ PA8 [18]
 .word GPIOA @ Mode register.
-.word 8 @ Bit number (1-bit regs).
+.word 1 @ Bit number (1-bit regs).
 .word 0b0 @ Mode value (high bit). 0 or 1.
 .word 0b1 @ Mode value (low bit). 0 or 1.
 .word 0b0 @ PUPD value (high bit). 0 or 1.
@@ -12,7 +12,7 @@ COL_1: @ PA8 [18]
 
 COL_2: @ PA15 [25]
 .word GPIOA @ Mode register.
-.word 15 @ Bit number (1-bit regs).
+.word 12 @ Bit number (1-bit regs).
 .word 0b0 @ Mode value (high bit). 0 or 1.
 .word 0b1 @ Mode value (low bit). 0 or 1.
 .word 0b0 @ PUPD value (high bit). 0 or 1.
@@ -32,7 +32,7 @@ COL_3: @ PA5 [11]
 
 COL_4: @ PA12 [22]
 .word GPIOA @ Mode register.
-.word 12 @ Bit number (1-bit regs).
+.word 15 @ Bit number (1-bit regs).
 .word 0b0 @ Mode value (high bit). 0 or 1.
 .word 0b1 @ Mode value (low bit). 0 or 1.
 .word 0b0 @ PUPD value (high bit). 0 or 1.
@@ -42,7 +42,7 @@ COL_4: @ PA12 [22]
 
 COL_5: @ PA1 [7]
 .word GPIOA @ Mode register.
-.word 1 @ Bit number (1-bit regs).
+.word 8 @ Bit number (1-bit regs).
 .word 0b0 @ Mode value (high bit). 0 or 1.
 .word 0b1 @ Mode value (low bit). 0 or 1.
 .word 0b0 @ PUPD value (high bit). 0 or 1.
