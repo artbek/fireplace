@@ -1,7 +1,7 @@
 Fireplace (Christmas Ornament)
 ==============================
 
-Video: https://www.instagram.com/p/Bdf6cZRHh-Q/?taken-by=artbeks
+Video: https://youtu.be/tF_NVPfcYiw
 
 <br />
 
